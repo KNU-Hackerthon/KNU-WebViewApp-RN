@@ -1,12 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { WebView } from 'react-native-webview';
+import { SafeAreaProvider, SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <SafeAreaProvider>
+        <SafeAreaInsetsContext.Consumer>
+          {(insets) => (
+              <View style={[styles.container, {paddingTop: insets?.top || 0}]}>
+                <WebView style={styles.webview} source={{ uri: 'https://knuhackerton-web.vercel.app' }} />
+              </View>
+          )}
+        </SafeAreaInsetsContext.Consumer>
+        <StatusBar style="black" backgroundColor="#f8f8f8" />
+      </SafeAreaProvider>
   );
 }
 
@@ -14,7 +23,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
+  webview: {
+    flex: 1,
+  }
 });
